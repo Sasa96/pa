@@ -4,35 +4,59 @@ using namespace std;
 
 int main()
 {
-    freopen ("input.txt","r",stdin);
-    char x;
+    freopen ("Input.txt","r",stdin);
+    string s;
     string comment = "";
     int caseNo;
-    while(cin>>x)
+    vector<pair<string,string>> tokens;
+    string token = "";
+    while(getline(cin, s))
     {
-        cout << "here" << endl;
-        if(x == ':')
+        int index = 0;
+        while(index < s.length())
         {
-            caseNo = 2;
-        } else if(x == '{')
-        {
-            caseNo = 4;
-            cout << "Here" << endl;
+            if(s[index] == ':')
+            {
+                caseNo = 3;
+            } else if(s[index] == '{')
+            {
+                caseNo = 4;
+            }
+
+            switch(caseNo)
+            {
+                case 3:
+                    if(s[index + 1] == '=') {
+                        index++;
+                        token = ":=";
+                        tokens.push_back(make_pair(token, "Assignment"));
+                    }
+                    break;
+                case 4:
+                    token = "";
+                    token += s[index++];
+                    while(index < s.length() && s[index] != '}')
+                    {
+                        token += s[index++];
+                    }
+
+                    if(index < s.length())
+                    {
+                        token += '}';
+                    }
+
+                    tokens.push_back(make_pair(token, "Comment"));
+                    break;
+                default:
+                    break;
+            }
+            index++;
+            token = "";
+            caseNo = 10;
         }
+    }
 
-        switch(caseNo)
-        {
-            case 4:
-                comment += x;
-                while(cin >> x && x != '}')
-                {
-                    comment += x;
-                }
-
-                comment += x;
-
-                cout << comment << " : COMMENT" << endl;
-                break;
-        }
+    for(int i = 0; i < tokens.size(); i++) {
+        cout << tokens[i].first << "   " << tokens[i].second << endl;
     }
 }
