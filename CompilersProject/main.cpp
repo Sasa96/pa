@@ -4,29 +4,71 @@ using namespace std;
 
 int main()
 {
-    freopen ("Input.txt","r",stdin);
-    string s;
+    vector<pair <string,string > > tokens;
+
+    freopen ("input.txt","r",stdin);
+    char x;
+    string line;
     string comment = "";
     int caseNo;
-    vector<pair<string,string>> tokens;
-    string token = "";
-    while(getline(cin, s))
+    while(getline(cin,line))
     {
-        int index = 0;
-        while(index < s.length())
+
+
+            int index=0;
+        while(index<line.length())
         {
-            if(s[index] == ':')
+
+            string token="";
+
+            if(line[index]>='0' && line[index] <='9')
+            {
+                caseNo = 1;
+            }
+            else if(line[index]>='A' && line[index] <='z')
+            {
+                caseNo=2;
+            }
+            else if(line[index] == ':')
             {
                 caseNo = 3;
-            } else if(s[index] == '{')
+            }
+            else if(line[index] == '{')
             {
                 caseNo = 4;
+
+            }
+            else if(line[index] == ' ')
+            {
+                caseNo = 5;
+            }
+            else
+            {
+                caseNo = 6;
             }
 
             switch(caseNo)
             {
+                case 1:
+                while(line[index]>='0' && line[index] <='9')
+                {
+                    token+=line[index];
+                    index++;
+                }
+                tokens.push_back(make_pair(token,"Number"));
+                break;
+
+                case 2:
+                while(line[index]>='A' && line[index] <='z')
+                {
+                    token+=line[index];
+                    index++;
+                }
+                tokens.push_back(make_pair(token,"ID"));
+                break;
+
                 case 3:
-                    if(s[index + 1] == '=') {
+                    if(line[index + 1] == '=') {
                         index++;
                         token = ":=";
                         tokens.push_back(make_pair(token, "Assignment"));
@@ -34,29 +76,36 @@ int main()
                     break;
                 case 4:
                     token = "";
-                    token += s[index++];
-                    while(index < s.length() && s[index] != '}')
+                    token += line[index++];
+                    while(index < line.length() && line[index] != '}')
                     {
-                        token += s[index++];
+                        token += line[index++];
                     }
 
-                    if(index < s.length())
+                    if(index < line.length())
                     {
                         token += '}';
                     }
 
                     tokens.push_back(make_pair(token, "Comment"));
                     break;
-                default:
+
+                case 5:
+                    index++;
+                    break;
+                case 6:
+                    if(line[index]=='+')
+                    tokens.push_back(make_pair(token,"PLUS"));
+                    index++;
                     break;
             }
-            index++;
-            token = "";
-            caseNo = 10;
         }
     }
 
-    for(int i = 0; i < tokens.size(); i++) {
-        cout << tokens[i].first << "   " << tokens[i].second << endl;
+    for(int i =0; i<tokens.size(); i++)
+    {
+        cout<<tokens[i].first<<" "<<tokens[i].second<<endl;
     }
 }
+
+
