@@ -1,7 +1,4 @@
 # depslib dependency file v1.0
-1523747028 source:/home/mahmoud/Documents/Documents/College/Compilers/pa/CompilersProject/main.cpp
+1523749417 source:/home/mahmoud/Documents/Documents/College/Compilers/pa/CompilersProject/main.cpp
 	<bits/stdc++.h>
-	<string>
-	<iostream>
-	<iomanip>
 

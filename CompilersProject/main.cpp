@@ -6,7 +6,7 @@ int main()
 {
     vector<pair <string,string > > tokens;
 
-    freopen ("input.txt","r",stdin);
+    freopen ("Input.txt","r",stdin);
     char x;
     string line;
     string comment = "";
@@ -64,14 +64,22 @@ int main()
                     token+=line[index];
                     index++;
                 }
-                tokens.push_back(make_pair(token,"ID"));
+
+                if(token == "if" || token == "then" || token == "else" || token == "end"
+                    || token == "repeat" || token == "until" || token == "read" || token == "write")
+                {
+                    tokens.push_back(make_pair(token, "Reserved Word"));
+                } else
+                {
+                    tokens.push_back(make_pair(token,"ID"));
+                }
                 break;
 
                 case 3:
                     if(line[index + 1] == '=') {
                         index++;
                         token = ":=";
-                        tokens.push_back(make_pair(token, "Assignment"));
+                        tokens.push_back(make_pair(token, "Symbol"));
                     }
                     break;
                 case 4:
@@ -94,12 +102,19 @@ int main()
                     index++;
                     break;
                 case 6:
-                    if(line[index]=='+')
-                    tokens.push_back(make_pair(token,"PLUS"));
+                    if(line[index] == '-' || line[index] == '+' || line[index] == '*'
+                        || line[index] == '/' || line[index] == '=' || line[index] == '<'
+                        || line[index] == '(' || line[index] == ')' || line[index] == ';')
+                    {
+                        token = line[index];
+                        tokens.push_back(make_pair(token, "Symbol"));
+                    }
                     index++;
                     break;
             }
         }
+
+        tokens.push_back(make_pair("", ""));
     }
 
     for(int i =0; i<tokens.size(); i++)
