@@ -76,11 +76,16 @@ int main()
                 break;
 
                 case 3:
+
                     if(line[index + 1] == '=') {
-                        index++;
+
                         token = ":=";
+                        index+=2;
                         tokens.push_back(make_pair(token, "Symbol"));
+
                     }
+                    else index++;
+
                     break;
                 case 4:
                     token = "";
@@ -93,9 +98,10 @@ int main()
                     if(index < line.length())
                     {
                         token += '}';
+                        tokens.push_back(make_pair(token, "Comment"));
                     }
 
-                    tokens.push_back(make_pair(token, "Comment"));
+
                     break;
 
                 case 5:
@@ -122,5 +128,3 @@ int main()
         cout<<tokens[i].first<<" "<<tokens[i].second<<endl;
     }
 }
-
-
